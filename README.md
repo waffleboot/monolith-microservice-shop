@@ -54,3 +54,11 @@ If you want to test only monolith version:
 or microservices:
 
     make docker-test-microservices
+
+## Monolith
+
+![monolith](monolith.png)
+
+## Microservices
+
+![microservice](microservices.png)
