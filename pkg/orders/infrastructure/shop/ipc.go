@@ -1,8 +1,8 @@
 package shop
 
 import (
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
-	shop "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
+	shop "github.com/waffleboot/monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
 )
 
 type IPCService struct {

@@ -5,14 +5,14 @@ import (
 	"log"
 	"os"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/application"
-	payments "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/infrastructure/payments"
-	orders_repo "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/infrastructure/repo"
-	shop "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/infrastructure/shop"
-	private_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/interfaces/private/http"
-	public_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/interfaces/public/http"
 	"github.com/go-chi/chi"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/cmd"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/application"
+	payments "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/payments"
+	orders_repo "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/repo"
+	shop "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/shop"
+	private_http "github.com/waffleboot/monolith-microservice-shop/pkg/orders/interfaces/private/http"
+	public_http "github.com/waffleboot/monolith-microservice-shop/pkg/orders/interfaces/public/http"
 )
 
 func createService() (router *chi.Mux, done func()) {

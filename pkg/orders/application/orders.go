@@ -3,9 +3,9 @@ package application
 import (
 	"log"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
 	"github.com/pkg/errors"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
 )
 
 type productService interface {

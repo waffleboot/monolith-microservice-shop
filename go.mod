@@ -1,4 +1,4 @@
-module github.com/ThreeDotsLabs/monolith-microservice-shop
+module github.com/waffleboot/monolith-microservice-shop
 
 go 1.16
 

@@ -5,10 +5,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/application"
-	payments_infra_orders "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/infrastructure/orders"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/interfaces/amqp"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/cmd"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/payments/application"
+	payments_infra_orders "github.com/waffleboot/monolith-microservice-shop/pkg/payments/infrastructure/orders"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/payments/interfaces/amqp"
 )
 
 func main() {

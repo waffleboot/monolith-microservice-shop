@@ -1,6 +1,6 @@
 package orders
 
-import "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/interfaces/private/ipc"
+import "github.com/waffleboot/monolith-microservice-shop/pkg/orders/interfaces/private/ipc"
 
 type IPCService struct {
 	orders ipc.OrdersIPC

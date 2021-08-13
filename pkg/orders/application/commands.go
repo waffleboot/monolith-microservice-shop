@@ -1,6 +1,6 @@
 package application
 
-import "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
+import "github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
 
 type PlaceOrderCommand struct {
 	OrderID   orders.ID

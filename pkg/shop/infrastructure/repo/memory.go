@@ -1,7 +1,7 @@
 package repo
 
 import (
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/shop/domain/products"
 )
 
 type MemoryRepository struct {

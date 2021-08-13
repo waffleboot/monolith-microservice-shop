@@ -3,9 +3,9 @@ package ipc_test
 import (
 	"testing"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
 	"github.com/stretchr/testify/assert"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/shop/domain/products"
 )
 
 func TestProductFromDomainProduct(t *testing.T) {

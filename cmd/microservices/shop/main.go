@@ -5,13 +5,13 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/application"
-	shop_repo "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/infrastructure/repo"
-	shop_private_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/private/http"
-	shop_public_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/public/http"
 	"github.com/go-chi/chi"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/cmd"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/shop"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/shop/application"
+	shop_repo "github.com/waffleboot/monolith-microservice-shop/pkg/shop/infrastructure/repo"
+	shop_private_http "github.com/waffleboot/monolith-microservice-shop/pkg/shop/interfaces/private/http"
+	shop_public_http "github.com/waffleboot/monolith-microservice-shop/pkg/shop/interfaces/public/http"
 )
 
 func main() {

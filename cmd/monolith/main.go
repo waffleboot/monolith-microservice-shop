@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
-	payments_ipc "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/interfaces/ipc"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/cmd"
+	payments_ipc "github.com/waffleboot/monolith-microservice-shop/pkg/payments/interfaces/ipc"
 )
 
 func main() {

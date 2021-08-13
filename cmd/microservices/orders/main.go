@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/cmd"
 )
 
 func main() {

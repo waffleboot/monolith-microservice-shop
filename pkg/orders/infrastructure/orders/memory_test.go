@@ -3,14 +3,14 @@ package orders_test
 import (
 	"testing"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
-	order_domain "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/infrastructure/orders"
 	"github.com/stretchr/testify/assert"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
+	order_domain "github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/repo"
 )
 
 func TestMemoryRepository(t *testing.T) {
-	repo := orders.NewMemoryRepository()
+	repo := repo.NewMemoryRepository()
 
 	order1 := addOrder(t, repo, "1")
 	// test idempotency
@@ -27,8 +27,7 @@ func TestMemoryRepository(t *testing.T) {
 	assert.EqualValues(t, *order2, *repoOrder2)
 }
 
-
-func addOrder(t *testing.T, repo *orders.MemoryRepository, id string) *order_domain.Order {
+func addOrder(t *testing.T, repo *repo.MemoryRepository, id string) *order_domain.Order {
 	productPrice, err := price.NewPrice(10, "USD")
 	assert.NoError(t, err)
 

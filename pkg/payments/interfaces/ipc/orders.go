@@ -4,8 +4,8 @@ import (
 	"log"
 	"sync"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/application"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/payments/application"
 )
 
 type OrderToProcess struct {

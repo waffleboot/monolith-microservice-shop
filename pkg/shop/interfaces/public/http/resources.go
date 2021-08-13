@@ -3,9 +3,9 @@ package http
 import (
 	"net/http"
 
-	httputils "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/http"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/go-chi/render"
+	httputils "github.com/waffleboot/monolith-microservice-shop/pkg/common/http"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
 )
 
 type productsResource struct {

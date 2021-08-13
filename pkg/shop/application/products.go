@@ -1,9 +1,9 @@
 package application
 
 import (
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
 	"github.com/pkg/errors"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/shop/domain/products"
 )
 
 type productReadModel interface {

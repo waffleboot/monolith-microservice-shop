@@ -1,8 +1,9 @@
 package products
 
 import (
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"errors"
+
+	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
 )
 
 type ID string
