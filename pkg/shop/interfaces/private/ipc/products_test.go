@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
 	"github.com/waffleboot/monolith-microservice-shop/pkg/shop/domain/products"
+	"github.com/waffleboot/monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
 )
 
 func TestProductFromDomainProduct(t *testing.T) {
@@ -13,9 +14,9 @@ func TestProductFromDomainProduct(t *testing.T) {
 	domainProduct, err := products.NewProduct("123", "name", "desc", productPrice)
 	assert.NoError(t, err)
 
-	p := ProductFromDomainProduct(*domainProduct)
+	p := ipc.ProductFromDomainProduct(*domainProduct)
 
-	assert.EqualValues(t, Product{
+	assert.EqualValues(t, ipc.Product{
 		"123",
 		"name",
 		"desc",

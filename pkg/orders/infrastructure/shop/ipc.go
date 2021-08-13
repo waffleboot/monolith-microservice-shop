@@ -19,10 +19,10 @@ func (s IPCService) ProductByID(id orders.ProductID) (orders.Product, error) {
 		return orders.Product{}, err
 	}
 
-	return buildProductIPC(product)
+	return BuildProductIPC(product)
 }
 
-func buildProductIPC(p shop.Product) (orders.Product, error) {
+func BuildProductIPC(p shop.Product) (orders.Product, error) {
 	return orders.NewProduct(
 		orders.ProductID(p.ID),
 		p.Name,

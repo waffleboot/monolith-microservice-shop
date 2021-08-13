@@ -31,14 +31,14 @@ func TestMemoryRepository(t *testing.T) {
 	assert.EqualValues(t, *product2, *repoProduct2)
 }
 
-func assertAllProducts(t *testing.T, repo *products.MemoryRepository, expectedProducts []products_domain.Product) {
+func assertAllProducts(t *testing.T, repo *repo.MemoryRepository, expectedProducts []products_domain.Product) {
 	products, err := repo.AllProducts()
 
 	assert.EqualValues(t, expectedProducts, products)
 	assert.NoError(t, err)
 }
 
-func addProduct(t *testing.T, repo *products.MemoryRepository, id string) *products_domain.Product {
+func addProduct(t *testing.T, repo *repo.MemoryRepository, id string) *products_domain.Product {
 	price, err := price.NewPrice(42, "USD")
 	assert.NoError(t, err)
 
