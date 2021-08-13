@@ -7,16 +7,16 @@ type PostOrderRequest struct {
 	Address   PostOrderAddress `json:"address"`
 }
 
-type PostOrdersResponse struct {
-	OrderID string
-}
-
 type PostOrderAddress struct {
 	Name     string `json:"name"`
 	Street   string `json:"street"`
 	City     string `json:"city"`
 	PostCode string `json:"post_code"`
 	Country  string `json:"country"`
+}
+
+type PostOrdersResponse struct {
+	OrderID string
 }
 
 type OrderPaidView struct {
