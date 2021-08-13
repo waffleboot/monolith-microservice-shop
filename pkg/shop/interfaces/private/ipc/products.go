@@ -1,4 +1,4 @@
-package intraprocess
+package ipc
 
 import (
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"

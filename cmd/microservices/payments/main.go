@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
-	payments_app "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/application"
+	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/application"
 	payments_infra_orders "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/infrastructure/orders"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/interfaces/amqp"
 )
@@ -17,20 +17,20 @@ func main() {
 
 	ctx := cmd.Context()
 
-	paymentsInterface := createPaymentsMicroservice()
+	paymentsInterface := createService()
 	if err := paymentsInterface.Run(ctx); err != nil {
 		panic(err)
 	}
 }
 
-func createPaymentsMicroservice() amqp.PaymentsInterface {
+func createService() amqp.PaymentsAMQP {
 	cmd.WaitForService(os.Getenv("SHOP_RABBITMQ_ADDR"))
 
-	paymentsService := payments_app.NewPaymentsService(
+	paymentsService := application.NewPaymentsService(
 		payments_infra_orders.NewHTTPClient(os.Getenv("SHOP_ORDERS_SERVICE_ADDR")),
 	)
 
-	paymentsInterface, err := amqp.NewPaymentsInterface(
+	paymentsInterface, err := amqp.NewPaymentsAMQP(
 		fmt.Sprintf("amqp://%s/", os.Getenv("SHOP_RABBITMQ_ADDR")),
 		os.Getenv("SHOP_RABBITMQ_ORDERS_TO_PAY_QUEUE"),
 		paymentsService,

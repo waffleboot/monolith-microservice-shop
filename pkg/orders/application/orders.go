@@ -8,38 +8,24 @@ import (
 	"github.com/pkg/errors"
 )
 
-type productsService interface {
+type productService interface {
 	ProductByID(id orders.ProductID) (orders.Product, error)
 }
 
-type paymentsService interface {
+type paymentService interface {
 	InitializeOrderPayment(id orders.ID, price price.Price) error
 }
 
+///////////////////////////////////////////////////
+
 type OrdersService struct {
-	productsService productsService
-	paymentsService paymentsService
-
-	ordersRepository orders.Repository
+	products productService
+	payments paymentService
+	repo     orders.Repository
 }
 
-func NewOrdersService(productsService productsService, paymentsService paymentsService, ordersRepository orders.Repository) OrdersService {
-	return OrdersService{productsService, paymentsService, ordersRepository}
-}
-
-type PlaceOrderCommandAddress struct {
-	Name     string
-	Street   string
-	City     string
-	PostCode string
-	Country  string
-}
-
-type PlaceOrderCommand struct {
-	OrderID   orders.ID
-	ProductID orders.ProductID
-
-	Address PlaceOrderCommandAddress
+func NewOrdersService(products productService, payments paymentService, repo orders.Repository) OrdersService {
+	return OrdersService{products, payments, repo}
 }
 
 func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
@@ -54,7 +40,7 @@ func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
 		return errors.Wrap(err, "invalid address")
 	}
 
-	product, err := s.productsService.ProductByID(cmd.ProductID)
+	product, err := s.products.ProductByID(cmd.ProductID)
 	if err != nil {
 		return errors.Wrap(err, "cannot get product")
 	}
@@ -64,11 +50,11 @@ func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
 		return errors.Wrap(err, "cannot create order")
 	}
 
-	if err := s.ordersRepository.Save(newOrder); err != nil {
+	if err := s.repo.Save(newOrder); err != nil {
 		return errors.Wrap(err, "cannot save order")
 	}
 
-	if err := s.paymentsService.InitializeOrderPayment(newOrder.ID(), newOrder.Product().Price()); err != nil {
+	if err := s.payments.InitializeOrderPayment(newOrder.ID(), newOrder.Product().Price()); err != nil {
 		return errors.Wrap(err, "cannot initialize payment")
 	}
 
@@ -77,19 +63,15 @@ func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
 	return nil
 }
 
-type MarkOrderAsPaidCommand struct {
-	OrderID orders.ID
-}
-
 func (s OrdersService) MarkOrderAsPaid(cmd MarkOrderAsPaidCommand) error {
-	o, err := s.ordersRepository.ByID(cmd.OrderID)
+	o, err := s.repo.ByID(cmd.OrderID)
 	if err != nil {
 		return errors.Wrapf(err, "cannot get order %s", cmd.OrderID)
 	}
 
 	o.MarkAsPaid()
 
-	if err := s.ordersRepository.Save(o); err != nil {
+	if err := s.repo.Save(o); err != nil {
 		return errors.Wrap(err, "cannot save order")
 	}
 
@@ -98,11 +80,11 @@ func (s OrdersService) MarkOrderAsPaid(cmd MarkOrderAsPaidCommand) error {
 	return nil
 }
 
-func (s OrdersService) OrderByID(id orders.ID) (orders.Order, error) {
-	o, err := s.ordersRepository.ByID(id)
-	if err != nil {
-		return orders.Order{}, errors.Wrapf(err, "cannot get order %s", id)
-	}
+// func (s OrdersService) OrderByID(id orders.ID) (orders.Order, error) {
+// 	o, err := s.ordersRepository.ByID(id)
+// 	if err != nil {
+// 		return orders.Order{}, errors.Wrapf(err, "cannot get order %s", id)
+// 	}
 
-	return *o, nil
-}
+// 	return *o, nil
+// }

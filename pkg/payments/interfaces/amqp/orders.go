@@ -20,7 +20,7 @@ type PriceView struct {
 	Currency string `json:"currency"`
 }
 
-type PaymentsInterface struct {
+type PaymentsAMQP struct {
 	conn    *amqp.Connection
 	queue   amqp.Queue
 	channel *amqp.Channel
@@ -28,15 +28,15 @@ type PaymentsInterface struct {
 	service application.PaymentsService
 }
 
-func NewPaymentsInterface(url string, queueName string, service application.PaymentsService) (PaymentsInterface, error) {
+func NewPaymentsAMQP(url string, queueName string, service application.PaymentsService) (PaymentsAMQP, error) {
 	conn, err := amqp.Dial(url)
 	if err != nil {
-		return PaymentsInterface{}, err
+		return PaymentsAMQP{}, err
 	}
 
 	ch, err := conn.Channel()
 	if err != nil {
-		return PaymentsInterface{}, err
+		return PaymentsAMQP{}, err
 	}
 
 	q, err := ch.QueueDeclare(
@@ -48,13 +48,13 @@ func NewPaymentsInterface(url string, queueName string, service application.Paym
 		nil,
 	)
 	if err != nil {
-		return PaymentsInterface{}, err
+		return PaymentsAMQP{}, err
 	}
 
-	return PaymentsInterface{conn, q, ch, service}, nil
+	return PaymentsAMQP{conn, q, ch, service}, nil
 }
 
-func (o PaymentsInterface) Run(ctx context.Context) error {
+func (o PaymentsAMQP) Run(ctx context.Context) error {
 	msgs, err := o.channel.Consume(
 		o.queue.Name,
 		"",
@@ -91,7 +91,7 @@ func (o PaymentsInterface) Run(ctx context.Context) error {
 	}
 }
 
-func (o PaymentsInterface) processMsg(msg amqp.Delivery) error {
+func (o PaymentsAMQP) processMsg(msg amqp.Delivery) error {
 	orderView := OrderToProcessView{}
 	err := json.Unmarshal(msg.Body, &orderView)
 	if err != nil {

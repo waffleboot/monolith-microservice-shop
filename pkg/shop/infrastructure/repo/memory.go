@@ -1,4 +1,4 @@
-package products
+package repo
 
 import (
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"

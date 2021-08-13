@@ -8,7 +8,6 @@ import (
 
 func WaitForService(host string) {
 	log.Printf("waiting for %s", host)
-
 	for {
 		log.Printf("testing connection to %s", host)
 		conn, err := net.Dial("tcp", host)

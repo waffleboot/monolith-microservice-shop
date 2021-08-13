@@ -8,7 +8,7 @@ import (
 
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
-	http_interface "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/private/http"
+	shop "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/private/http"
 	"github.com/pkg/errors"
 )
 
@@ -34,24 +34,27 @@ func (h HTTPClient) ProductByID(id orders.ProductID) (orders.Product, error) {
 		return orders.Product{}, errors.Wrap(err, "cannot read response")
 	}
 
-	productView := http_interface.ProductView{}
+	productView := shop.ProductView{}
 	if err := json.Unmarshal(b, &productView); err != nil {
 		return orders.Product{}, errors.Wrapf(err, "cannot decode response: %s", b)
 	}
 
-	return OrderProductFromHTTP(productView)
+	return buildProductHttp(productView)
 }
 
-
-func OrderProductFromHTTP(shopProduct http_interface.ProductView) (orders.Product, error) {
-	productPrice, err := OrderProductPriceFromHTTP(shopProduct.Price)
+func buildProductHttp(v shop.ProductView) (orders.Product, error) {
+	price, err := productPrice(v.Price)
 	if err != nil {
 		return orders.Product{}, errors.Wrap(err, "cannot decode price")
 	}
-
-	return orders.NewProduct(orders.ProductID(shopProduct.ID), shopProduct.Name, productPrice)
+	return orders.NewProduct(
+		orders.ProductID(v.ID),
+		v.Name,
+		price)
 }
 
-func OrderProductPriceFromHTTP(priceView http_interface.PriceView) (price.Price, error) {
-	return price.NewPrice(priceView.Cents, priceView.Currency)
+func productPrice(v shop.PriceView) (price.Price, error) {
+	return price.NewPrice(
+		v.Cents,
+		v.Currency)
 }

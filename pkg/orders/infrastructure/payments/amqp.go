@@ -6,7 +6,7 @@ import (
 
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
-	payments_amqp_interface "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/interfaces/amqp"
+	payments_amqp "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/interfaces/amqp"
 	"github.com/pkg/errors"
 	"github.com/streadway/amqp"
 )
@@ -21,12 +21,10 @@ func NewAMQPService(url, queueName string) (AMQPService, error) {
 	if err != nil {
 		return AMQPService{}, err
 	}
-
 	ch, err := conn.Channel()
 	if err != nil {
 		return AMQPService{}, err
 	}
-
 	q, err := ch.QueueDeclare(
 		queueName,
 		true,
@@ -38,14 +36,13 @@ func NewAMQPService(url, queueName string) (AMQPService, error) {
 	if err != nil {
 		return AMQPService{}, err
 	}
-
 	return AMQPService{q, ch}, nil
 }
 
-func (i AMQPService) InitializeOrderPayment(id orders.ID, price price.Price) error {
-	order := payments_amqp_interface.OrderToProcessView{
+func (s AMQPService) InitializeOrderPayment(id orders.ID, price price.Price) error {
+	order := payments_amqp.OrderToProcessView{
 		ID: string(id),
-		Price: payments_amqp_interface.PriceView{
+		Price: payments_amqp.PriceView{
 			Cents:    price.Cents(),
 			Currency: price.Currency(),
 		},
@@ -56,9 +53,9 @@ func (i AMQPService) InitializeOrderPayment(id orders.ID, price price.Price) err
 		return errors.Wrap(err, "cannot marshal order for amqp")
 	}
 
-	err = i.channel.Publish(
+	err = s.channel.Publish(
 		"",
-		i.queue.Name,
+		s.queue.Name,
 		false,
 		false,
 		amqp.Publishing{
@@ -74,6 +71,6 @@ func (i AMQPService) InitializeOrderPayment(id orders.ID, price price.Price) err
 	return nil
 }
 
-func (i AMQPService) Close() error {
-	return i.channel.Close()
+func (s AMQPService) Close() error {
+	return s.channel.Close()
 }

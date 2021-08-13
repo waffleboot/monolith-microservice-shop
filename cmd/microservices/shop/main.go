@@ -7,10 +7,10 @@ import (
 
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop"
-	shop_app "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/application"
-	shop_infra_product "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/infrastructure/products"
-	shop_interfaces_private_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/private/http"
-	shop_interfaces_public_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/public/http"
+	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/application"
+	shop_repo "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/infrastructure/repo"
+	shop_private_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/private/http"
+	shop_public_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/public/http"
 	"github.com/go-chi/chi"
 )
 
@@ -19,7 +19,7 @@ func main() {
 
 	ctx := cmd.Context()
 
-	r := createShopMicroservice()
+	r := createService()
 	server := &http.Server{Addr: os.Getenv("SHOP_SHOP_SERVICE_BIND_ADDR"), Handler: r}
 	go func() {
 		if err := server.ListenAndServe(); err != http.ErrServerClosed {
@@ -35,18 +35,18 @@ func main() {
 	}
 }
 
-func createShopMicroservice() *chi.Mux {
-	shopProductRepo := shop_infra_product.NewMemoryRepository()
-	shopProductsService := shop_app.NewProductsService(shopProductRepo, shopProductRepo)
+func createService() *chi.Mux {
+	repo := shop_repo.NewMemoryRepository()
+	service := application.NewProductsService(repo, repo)
 
-	if err := shop.LoadShopFixtures(shopProductsService); err != nil {
+	if err := shop.LoadShopFixtures(service); err != nil {
 		panic(err)
 	}
 
 	r := cmd.CreateRouter()
 
-	shop_interfaces_public_http.AddRoutes(r, shopProductRepo)
-	shop_interfaces_private_http.AddRoutes(r, shopProductRepo)
+	shop_public_http.AddRoutes(r, repo)
+	shop_private_http.AddRoutes(r, repo)
 
 	return r
 }

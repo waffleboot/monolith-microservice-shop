@@ -9,18 +9,15 @@ import (
 
 func Context() context.Context {
 	ctx, cancel := context.WithCancel(context.Background())
-
 	go func() {
-		sigs := make(chan os.Signal, 1)
-		signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-
+		c := make(chan os.Signal, 1)
+		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 		select {
-		case <-sigs:
+		case <-c:
 			cancel()
 		case <-ctx.Done():
 			return
 		}
 	}()
-
 	return ctx
 }

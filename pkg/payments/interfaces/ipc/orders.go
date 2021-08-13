@@ -1,4 +1,4 @@
-package intraprocess
+package ipc
 
 import (
 	"log"
@@ -13,15 +13,15 @@ type OrderToProcess struct {
 	Price price.Price
 }
 
-type PaymentsInterface struct {
-	orders            <-chan OrderToProcess
-	service           application.PaymentsService
-	orderProcessingWg *sync.WaitGroup
-	runEnded          chan struct{}
+type PaymentsIPC struct {
+	orders  <-chan OrderToProcess
+	service application.PaymentsService
+	wg      *sync.WaitGroup
+	done    chan struct{}
 }
 
-func NewPaymentsInterface(orders <-chan OrderToProcess, service application.PaymentsService) PaymentsInterface {
-	return PaymentsInterface{
+func NewPaymentsIPC(orders <-chan OrderToProcess, service application.PaymentsService) PaymentsIPC {
+	return PaymentsIPC{
 		orders,
 		service,
 		&sync.WaitGroup{},
@@ -29,15 +29,14 @@ func NewPaymentsInterface(orders <-chan OrderToProcess, service application.Paym
 	}
 }
 
-func (o PaymentsInterface) Run() {
+func (o PaymentsIPC) Run() {
 	defer func() {
-		o.runEnded <- struct{}{}
+		o.done <- struct{}{}
 	}()
-
 	for order := range o.orders {
 		go func(orderToPay OrderToProcess) {
-			o.orderProcessingWg.Add(1)
-			defer o.orderProcessingWg.Done()
+			o.wg.Add(1)
+			defer o.wg.Done()
 
 			if err := o.service.InitializeOrderPayment(orderToPay.ID, orderToPay.Price); err != nil {
 				log.Print("Cannot initialize payment:", err)
@@ -46,7 +45,7 @@ func (o PaymentsInterface) Run() {
 	}
 }
 
-func (o PaymentsInterface) Close() {
-	o.orderProcessingWg.Wait()
-	<-o.runEnded
+func (o PaymentsIPC) Close() {
+	o.wg.Wait()
+	<-o.done
 }
