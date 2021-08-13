@@ -1,6 +1,6 @@
 package http
 
-import "github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
+import "monolith-microservice-shop/pkg/orders/domain/orders"
 
 type PostOrderRequest struct {
 	ProductID orders.ProductID `json:"product_id"`

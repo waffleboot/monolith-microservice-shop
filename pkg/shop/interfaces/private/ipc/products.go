@@ -1,9 +1,10 @@
 package ipc
 
 import (
+	"monolith-microservice-shop/pkg/common/price"
+	"monolith-microservice-shop/pkg/shop/domain/products"
+
 	"github.com/pkg/errors"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/shop/domain/products"
 )
 
 type Product struct {

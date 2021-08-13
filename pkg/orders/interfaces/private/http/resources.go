@@ -3,11 +3,12 @@ package http
 import (
 	"net/http"
 
+	httputils "monolith-microservice-shop/pkg/common/http"
+	"monolith-microservice-shop/pkg/orders/application"
+	"monolith-microservice-shop/pkg/orders/domain/orders"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	httputils "github.com/waffleboot/monolith-microservice-shop/pkg/common/http"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/application"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
 )
 
 type ordersResource struct {

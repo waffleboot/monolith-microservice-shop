@@ -1,6 +1,6 @@
 package repo
 
-import "github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
+import "monolith-microservice-shop/pkg/orders/domain/orders"
 
 var _ orders.Repository = (*MemoryRepository)(nil)
 

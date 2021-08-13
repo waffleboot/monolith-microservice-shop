@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
+	"monolith-microservice-shop/pkg/common/price"
 )
 
 type ordersService interface {

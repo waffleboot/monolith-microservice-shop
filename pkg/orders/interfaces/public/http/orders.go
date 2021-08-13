@@ -1,9 +1,10 @@
 package http
 
 import (
+	"monolith-microservice-shop/pkg/orders/application"
+	"monolith-microservice-shop/pkg/orders/domain/orders"
+
 	"github.com/go-chi/chi"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/application"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
 )
 
 func AddRoutes(router *chi.Mux,

@@ -3,7 +3,7 @@ package products
 import (
 	"errors"
 
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
+	"monolith-microservice-shop/pkg/common/price"
 )
 
 type ID string

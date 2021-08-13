@@ -1,14 +1,14 @@
 package main
 
 import (
-	orders_app "github.com/waffleboot/monolith-microservice-shop/pkg/orders/application"
-	orders_repo "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/repo"
-	orders_ipc "github.com/waffleboot/monolith-microservice-shop/pkg/orders/interfaces/private/ipc"
+	orders_app "monolith-microservice-shop/pkg/orders/application"
+	orders_repo "monolith-microservice-shop/pkg/orders/infrastructure/repo"
+	orders_ipc "monolith-microservice-shop/pkg/orders/interfaces/private/ipc"
 
-	orders_payments "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/payments"
-	orders_product "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/shop"
-	payments_ipc "github.com/waffleboot/monolith-microservice-shop/pkg/payments/interfaces/ipc"
-	shop_ipc "github.com/waffleboot/monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
+	orders_payments "monolith-microservice-shop/pkg/orders/infrastructure/payments"
+	orders_product "monolith-microservice-shop/pkg/orders/infrastructure/shop"
+	payments_ipc "monolith-microservice-shop/pkg/payments/interfaces/ipc"
+	shop_ipc "monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
 )
 
 func buildOrderService(

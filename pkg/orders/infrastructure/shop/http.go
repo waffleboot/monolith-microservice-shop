@@ -6,10 +6,11 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"monolith-microservice-shop/pkg/common/price"
+	"monolith-microservice-shop/pkg/orders/domain/orders"
+	shop "monolith-microservice-shop/pkg/shop/interfaces/private/http"
+
 	"github.com/pkg/errors"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
-	shop "github.com/waffleboot/monolith-microservice-shop/pkg/shop/interfaces/private/http"
 )
 
 type HTTPClient struct {

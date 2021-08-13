@@ -9,10 +9,11 @@ import (
 	"testing"
 	"time"
 
+	"monolith-microservice-shop/pkg/orders/domain/orders"
+	orders_http_interface "monolith-microservice-shop/pkg/orders/interfaces/public/http"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
-	orders_http_interface "github.com/waffleboot/monolith-microservice-shop/pkg/orders/interfaces/public/http"
 )
 
 var testCases = []struct {
@@ -130,7 +131,7 @@ func TestProducts(t *testing.T) {
 	}
 }
 
-func makeRequest(t *testing.T, method string, path string, data interface{}) (*http.Response) {
+func makeRequest(t *testing.T, method string, path string, data interface{}) *http.Response {
 	var body []byte
 
 	if data != nil {

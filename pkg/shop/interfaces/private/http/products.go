@@ -3,11 +3,12 @@ package http
 import (
 	"net/http"
 
+	httputils "monolith-microservice-shop/pkg/common/http"
+	"monolith-microservice-shop/pkg/common/price"
+	shop "monolith-microservice-shop/pkg/shop/domain/products"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	httputils "github.com/waffleboot/monolith-microservice-shop/pkg/common/http"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
-	shop "github.com/waffleboot/monolith-microservice-shop/pkg/shop/domain/products"
 )
 
 func AddRoutes(router *chi.Mux, repo shop.Repository) {

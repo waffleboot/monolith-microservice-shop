@@ -1,9 +1,9 @@
 package payments
 
 import (
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
-	payments_ipc "github.com/waffleboot/monolith-microservice-shop/pkg/payments/interfaces/ipc"
+	"monolith-microservice-shop/pkg/common/price"
+	"monolith-microservice-shop/pkg/orders/domain/orders"
+	payments_ipc "monolith-microservice-shop/pkg/payments/interfaces/ipc"
 )
 
 type IPCService struct {

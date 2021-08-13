@@ -5,14 +5,15 @@ import (
 	"log"
 	"os"
 
+	"monolith-microservice-shop/pkg/common/cmd"
+	"monolith-microservice-shop/pkg/orders/application"
+	payments "monolith-microservice-shop/pkg/orders/infrastructure/payments"
+	orders_repo "monolith-microservice-shop/pkg/orders/infrastructure/repo"
+	shop "monolith-microservice-shop/pkg/orders/infrastructure/shop"
+	private_http "monolith-microservice-shop/pkg/orders/interfaces/private/http"
+	public_http "monolith-microservice-shop/pkg/orders/interfaces/public/http"
+
 	"github.com/go-chi/chi"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/cmd"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/application"
-	payments "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/payments"
-	orders_repo "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/repo"
-	shop "github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/shop"
-	private_http "github.com/waffleboot/monolith-microservice-shop/pkg/orders/interfaces/private/http"
-	public_http "github.com/waffleboot/monolith-microservice-shop/pkg/orders/interfaces/public/http"
 )
 
 func createService() (router *chi.Mux, done func()) {

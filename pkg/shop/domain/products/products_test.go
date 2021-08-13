@@ -3,9 +3,10 @@ package products_test
 import (
 	"testing"
 
+	"monolith-microservice-shop/pkg/common/price"
+	"monolith-microservice-shop/pkg/shop/domain/products"
+
 	"github.com/stretchr/testify/assert"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/shop/domain/products"
 )
 
 func TestNewProduct(t *testing.T) {

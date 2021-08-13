@@ -1,8 +1,8 @@
 package shop
 
 import (
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
-	shop "github.com/waffleboot/monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
+	"monolith-microservice-shop/pkg/orders/domain/orders"
+	shop "monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
 )
 
 type IPCService struct {

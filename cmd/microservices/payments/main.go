@@ -5,10 +5,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/cmd"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/payments/application"
-	payments_infra_orders "github.com/waffleboot/monolith-microservice-shop/pkg/payments/infrastructure/orders"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/payments/interfaces/amqp"
+	"monolith-microservice-shop/pkg/common/cmd"
+	"monolith-microservice-shop/pkg/payments/application"
+	payments_infra_orders "monolith-microservice-shop/pkg/payments/infrastructure/orders"
+	"monolith-microservice-shop/pkg/payments/interfaces/amqp"
 )
 
 func main() {

@@ -3,9 +3,10 @@ package orders_test
 import (
 	"testing"
 
+	"monolith-microservice-shop/pkg/common/price"
+	"monolith-microservice-shop/pkg/orders/domain/orders"
+
 	"github.com/stretchr/testify/assert"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
 )
 
 func TestNewOrder(t *testing.T) {

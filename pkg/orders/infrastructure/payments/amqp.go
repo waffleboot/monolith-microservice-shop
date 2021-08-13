@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"log"
 
+	"monolith-microservice-shop/pkg/common/price"
+	"monolith-microservice-shop/pkg/orders/domain/orders"
+	payments_amqp "monolith-microservice-shop/pkg/payments/interfaces/amqp"
+
 	"github.com/pkg/errors"
 	"github.com/streadway/amqp"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
-	payments_amqp "github.com/waffleboot/monolith-microservice-shop/pkg/payments/interfaces/amqp"
 )
 
 type AMQPService struct {

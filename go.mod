@@ -1,4 +1,4 @@
-module github.com/waffleboot/monolith-microservice-shop
+module monolith-microservice-shop
 
 go 1.16
 

@@ -3,10 +3,11 @@ package orders_test
 import (
 	"testing"
 
+	"monolith-microservice-shop/pkg/common/price"
+	order_domain "monolith-microservice-shop/pkg/orders/domain/orders"
+	"monolith-microservice-shop/pkg/orders/infrastructure/repo"
+
 	"github.com/stretchr/testify/assert"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/common/price"
-	order_domain "github.com/waffleboot/monolith-microservice-shop/pkg/orders/domain/orders"
-	"github.com/waffleboot/monolith-microservice-shop/pkg/orders/infrastructure/repo"
 )
 
 func TestMemoryRepository(t *testing.T) {
