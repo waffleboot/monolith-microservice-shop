@@ -1,3 +1,10 @@
+
+all:
+	go build -o monolith ./cmd/monolith
+	go build -o shop ./cmd/microservices/shop
+	go build -o orders ./cmd/microservices/orders
+	go build -o payments ./cmd/microservices/payments
+
 qa:
     # "Errors unhandled" check is made by errcheck
 	gometalinter \
