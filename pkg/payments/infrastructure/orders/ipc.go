@@ -6,8 +6,8 @@ type IPCService struct {
 	orders ipc.OrdersIPC
 }
 
-func NewIPCService(paymentsInterface ipc.OrdersIPC) IPCService {
-	return IPCService{paymentsInterface}
+func NewIPCService(orders ipc.OrdersIPC) IPCService {
+	return IPCService{orders}
 }
 
 func (o IPCService) MarkOrderAsPaid(orderID string) error {
