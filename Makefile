@@ -5,6 +5,11 @@ all:
 	go build -o orders ./cmd/microservices/orders
 	go build -o payments ./cmd/microservices/payments
 
+http:
+	curl -s http://localhost:8080/products | jq .
+	curl -s -H "Content-Type: application/json" --request POST --data '{"product_id":"2","address":{"name":"name","street":"street","city":"city","post_code":"123","country":"RU"}}' http://localhost:8080/orders | jq .OrderID
+	curl -s http://localhost:8080/orders/4ba0669e-fc66-11eb-b996-c82a142c4d0c/paid | jq .
+
 qa:
     # "Errors unhandled" check is made by errcheck
 	gometalinter \
