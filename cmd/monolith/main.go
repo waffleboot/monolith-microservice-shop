@@ -22,7 +22,12 @@ func main() {
 
 	go payments.Run()
 
-	server := &http.Server{Addr: os.Getenv("SHOP_MONOLITH_BIND_ADDR"), Handler: router}
+	addr := os.Getenv("SHOP_MONOLITH_BIND_ADDR")
+	if addr == "" {
+		addr = ":8080"
+	}
+
+	server := &http.Server{Addr: addr, Handler: router}
 	go func() {
 		if err := server.ListenAndServe(); err != http.ErrServerClosed {
 			panic(err)
