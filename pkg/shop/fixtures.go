@@ -1,11 +1,11 @@
 package shop
 
 import (
-	shop_app "monolith-microservice-shop/pkg/shop/application"
+	"monolith-microservice-shop/pkg/shop/application"
 )
 
-func LoadShopFixtures(productsService shop_app.ProductsService) error {
-	err := productsService.AddProduct(shop_app.AddProductCommand{
+func LoadShopFixtures(productsService application.ProductsService) error {
+	err := productsService.AddProduct(application.AddProductCommand{
 		ID:            "1",
 		Name:          "Product 1",
 		Description:   "Some extra description",
@@ -16,7 +16,7 @@ func LoadShopFixtures(productsService shop_app.ProductsService) error {
 		return err
 	}
 
-	return productsService.AddProduct(shop_app.AddProductCommand{
+	return productsService.AddProduct(application.AddProductCommand{
 		ID:            "2",
 		Name:          "Product 2",
 		Description:   "Another extra description",

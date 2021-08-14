@@ -1,13 +1,13 @@
 package main
 
 import (
-	shop_app "monolith-microservice-shop/pkg/shop/application"
-	shop_repo "monolith-microservice-shop/pkg/shop/infrastructure/repo"
-	shop_ipc "monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
+	"monolith-microservice-shop/pkg/shop/application"
+	"monolith-microservice-shop/pkg/shop/infrastructure/repo"
+	"monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
 )
 
-func buildShopService() (shop_app.ProductsService, shop_ipc.ProductInterface, *shop_repo.MemoryRepository) {
-	repo := shop_repo.NewMemoryRepository()
-	service := shop_app.NewProductsService(repo, repo)
-	return service, shop_ipc.NewProductInterface(repo), repo
+func buildShopService() (application.ProductsService, ipc.ProductInterface, *repo.MemoryRepository) {
+	repo := repo.NewMemoryRepository()
+	service := application.NewProductsService(repo, repo)
+	return service, ipc.NewProductInterface(repo), repo
 }
