@@ -12,12 +12,12 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-type ordersResource struct {
+type ordersEndpoint struct {
 	service    application.OrdersService
 	repository orders.Repository
 }
 
-func (o ordersResource) orders(w http.ResponseWriter, r *http.Request) {
+func (o ordersEndpoint) orders(w http.ResponseWriter, r *http.Request) {
 	req := PostOrderRequest{}
 	if err := render.Decode(r, &req); err != nil {
 		_ = render.Render(w, r, httputils.ErrBadRequest(err))
@@ -38,7 +38,7 @@ func (o ordersResource) orders(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (o ordersResource) getPaid(w http.ResponseWriter, r *http.Request) {
+func (o ordersEndpoint) paid(w http.ResponseWriter, r *http.Request) {
 	order, err := o.repository.ByID(orders.ID(chi.URLParam(r, "id")))
 	if err != nil {
 		_ = render.Render(w, r, httputils.ErrBadRequest(err))

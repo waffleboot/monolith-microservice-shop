@@ -9,7 +9,7 @@ import (
 
 func AddRoutes(router *chi.Mux,
 	service application.OrdersService, repository orders.Repository) {
-	endpoint := ordersResource{service, repository}
+	endpoint := ordersEndpoint{service, repository}
 	router.Post("/orders", endpoint.orders)
-	router.Get("/orders/{id}/paid", endpoint.getPaid)
+	router.Get("/orders/{id}/paid", endpoint.paid)
 }
