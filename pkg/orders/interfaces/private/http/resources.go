@@ -11,11 +11,11 @@ import (
 	"github.com/go-chi/render"
 )
 
-type ordersResource struct {
+type ordersEndpoint struct {
 	service application.OrdersService
 }
 
-func (o ordersResource) PostPaid(w http.ResponseWriter, r *http.Request) {
+func (o ordersEndpoint) paid(w http.ResponseWriter, r *http.Request) {
 	cmd := application.MarkOrderAsPaidCommand{
 		OrderID: orders.ID(chi.URLParam(r, "id")),
 	}
