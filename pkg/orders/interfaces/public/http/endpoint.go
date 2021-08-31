@@ -17,7 +17,7 @@ type ordersResource struct {
 	repository orders.Repository
 }
 
-func (o ordersResource) Post(w http.ResponseWriter, r *http.Request) {
+func (o ordersResource) orders(w http.ResponseWriter, r *http.Request) {
 	req := PostOrderRequest{}
 	if err := render.Decode(r, &req); err != nil {
 		_ = render.Render(w, r, httputils.ErrBadRequest(err))
@@ -38,7 +38,7 @@ func (o ordersResource) Post(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (o ordersResource) GetPaid(w http.ResponseWriter, r *http.Request) {
+func (o ordersResource) getPaid(w http.ResponseWriter, r *http.Request) {
 	order, err := o.repository.ByID(orders.ID(chi.URLParam(r, "id")))
 	if err != nil {
 		_ = render.Render(w, r, httputils.ErrBadRequest(err))
