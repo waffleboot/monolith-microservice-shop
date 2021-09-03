@@ -2,14 +2,14 @@ package shop
 
 import (
 	"monolith-microservice-shop/pkg/orders/domain/orders"
-	shop "monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
+	"monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
 )
 
 type IPCService struct {
-	shop shop.ProductInterface
+	shop ipc.ProductInterface
 }
 
-func NewIPCService(shop shop.ProductInterface) IPCService {
+func NewIPCService(shop ipc.ProductInterface) IPCService {
 	return IPCService{shop}
 }
 
@@ -19,10 +19,10 @@ func (s IPCService) ProductByID(id orders.ProductID) (orders.Product, error) {
 		return orders.Product{}, err
 	}
 
-	return BuildProductIPC(product)
+	return convert(product)
 }
 
-func BuildProductIPC(p shop.Product) (orders.Product, error) {
+func convert(p ipc.Product) (orders.Product, error) {
 	return orders.NewProduct(
 		orders.ProductID(p.ID),
 		p.Name,

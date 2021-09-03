@@ -12,15 +12,15 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func createService(paymentsChannel chan payments_ipc.OrderToProcess) (*chi.Mux, payments_ipc.PaymentsIPC) {
+func createService(ch chan payments_ipc.OrderToProcess) (*chi.Mux, payments_ipc.Payments) {
 
 	shopService, shopIpc, shopRepo := buildShopService()
-	orders, ordersIpc, ordersRepo := buildOrderService(shopIpc, paymentsChannel)
+	orders, ordersIpc, ordersRepo := buildOrderService(shopIpc, ch)
 
 	payments := payments_app.NewPaymentsService(
 		payments_orders.NewIPCService(ordersIpc),
 	)
-	paymentsInterface := payments_ipc.NewPaymentsIPC(paymentsChannel, payments)
+	paymentsInterface := payments_ipc.NewPayments(ch, payments)
 
 	if err := shop.LoadShopFixtures(shopService); err != nil {
 		panic(err)

@@ -14,18 +14,18 @@ import (
 func buildOrderService(
 
 	products shop_ipc.ProductInterface,
-	payments chan payments_ipc.OrderToProcess) (
+	ch chan payments_ipc.OrderToProcess) (
 
 	application.OrdersService,
-	ipc.OrdersIPC,
+	ipc.OrdersService,
 	*repo.MemoryRepository) {
 
 	repo := repo.NewMemoryRepository()
 
 	service := application.NewOrdersService(
 		orders_product.NewIPCService(products),
-		orders_payments.NewIPCService(payments),
+		orders_payments.NewIPCService(ch),
 		repo,
 	)
-	return service, ipc.NewOrdersIPC(service), repo
+	return service, ipc.NewOrdersService(service), repo
 }

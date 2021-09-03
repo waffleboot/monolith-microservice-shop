@@ -16,9 +16,9 @@ func main() {
 
 	ctx := cmd.Context()
 
-	paymentsChannel := make(chan payments_ipc.OrderToProcess)
+	ch := make(chan payments_ipc.OrderToProcess)
 
-	router, payments := createService(paymentsChannel)
+	router, payments := createService(ch)
 
 	go payments.Run()
 
@@ -43,7 +43,7 @@ func main() {
 		panic(err)
 	}
 
-	close(paymentsChannel)
+	close(ch)
 
 	payments.Close()
 

@@ -4,17 +4,17 @@ import (
 	"log"
 
 	"monolith-microservice-shop/pkg/common/price"
-	"monolith-microservice-shop/pkg/orders/domain/orders"
+	domain "monolith-microservice-shop/pkg/orders/domain/orders"
 
 	"github.com/pkg/errors"
 )
 
 type productService interface {
-	ProductByID(id orders.ProductID) (orders.Product, error)
+	ProductByID(id domain.ProductID) (domain.Product, error)
 }
 
 type paymentService interface {
-	InitializeOrderPayment(id orders.ID, price price.Price) error
+	InitializeOrderPayment(id domain.ID, price price.Price) error
 }
 
 ///////////////////////////////////////////////////
@@ -22,15 +22,15 @@ type paymentService interface {
 type OrdersService struct {
 	products productService
 	payments paymentService
-	repo     orders.Repository
+	repo     domain.Repository
 }
 
-func NewOrdersService(products productService, payments paymentService, repo orders.Repository) OrdersService {
+func NewOrdersService(products productService, payments paymentService, repo domain.Repository) OrdersService {
 	return OrdersService{products, payments, repo}
 }
 
 func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
-	address, err := orders.NewAddress(
+	address, err := domain.NewAddress(
 		cmd.Address.Name,
 		cmd.Address.Street,
 		cmd.Address.City,
@@ -46,7 +46,7 @@ func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
 		return errors.Wrap(err, "cannot get product")
 	}
 
-	newOrder, err := orders.NewOrder(cmd.OrderID, product, address)
+	newOrder, err := domain.NewOrder(cmd.OrderID, product, address)
 	if err != nil {
 		return errors.Wrap(err, "cannot create order")
 	}
