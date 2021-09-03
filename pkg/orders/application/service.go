@@ -14,7 +14,7 @@ type productService interface {
 }
 
 type paymentService interface {
-	InitializeOrderPayment(id domain.ID, price price.Price) error
+	InitializeOrderPayment(id domain.OrderID, price price.Price) error
 }
 
 ///////////////////////////////////////////////////

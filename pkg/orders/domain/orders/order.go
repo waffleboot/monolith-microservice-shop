@@ -2,19 +2,19 @@ package orders
 
 import "errors"
 
-type ID string
+type OrderID string
 
 var ErrEmptyOrderID = errors.New("empty order id")
 
 type Order struct {
-	id      ID
+	id      OrderID
 	product Product
 	address Address
 
 	paid bool
 }
 
-func (o *Order) ID() ID {
+func (o *Order) ID() OrderID {
 	return o.id
 }
 
@@ -34,7 +34,7 @@ func (o *Order) MarkAsPaid() {
 	o.paid = true
 }
 
-func NewOrder(id ID, product Product, address Address) (*Order, error) {
+func NewOrder(id OrderID, product Product, address Address) (*Order, error) {
 	if len(id) == 0 {
 		return nil, ErrEmptyOrderID
 	}

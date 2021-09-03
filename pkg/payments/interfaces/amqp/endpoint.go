@@ -11,7 +11,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
-type PaymentsAMQP struct {
+type Runner struct {
 	conn    *amqp.Connection
 	queue   amqp.Queue
 	channel *amqp.Channel
@@ -19,16 +19,16 @@ type PaymentsAMQP struct {
 	service application.PaymentsService
 }
 
-func NewPaymentsAMQP(url string, queue string,
-	service application.PaymentsService) (PaymentsAMQP, error) {
+func NewRunner(url string, queue string,
+	service application.PaymentsService) (Runner, error) {
 	conn, err := amqp.Dial(url)
 	if err != nil {
-		return PaymentsAMQP{}, err
+		return Runner{}, err
 	}
 
 	ch, err := conn.Channel()
 	if err != nil {
-		return PaymentsAMQP{}, err
+		return Runner{}, err
 	}
 
 	q, err := ch.QueueDeclare(
@@ -40,13 +40,13 @@ func NewPaymentsAMQP(url string, queue string,
 		nil,   // args
 	)
 	if err != nil {
-		return PaymentsAMQP{}, err
+		return Runner{}, err
 	}
 
-	return PaymentsAMQP{conn, q, ch, service}, nil
+	return Runner{conn, q, ch, service}, nil
 }
 
-func (o PaymentsAMQP) Run(ctx context.Context) error {
+func (o Runner) Run(ctx context.Context) error {
 	msgs, err := o.channel.Consume(
 		o.queue.Name, // queue
 		"",           // consumer
@@ -82,7 +82,7 @@ func (o PaymentsAMQP) Run(ctx context.Context) error {
 	}
 }
 
-func (o PaymentsAMQP) processMsg(msg amqp.Delivery) error {
+func (o Runner) processMsg(msg amqp.Delivery) error {
 	var orderView OrderToProcessView
 	if err := json.Unmarshal(msg.Body, &orderView); err != nil {
 		log.Printf("cannot decode msg: %s, error: %s", string(msg.Body), err)

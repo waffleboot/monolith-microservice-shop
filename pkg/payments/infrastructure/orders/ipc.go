@@ -3,10 +3,10 @@ package orders
 import "monolith-microservice-shop/pkg/orders/interfaces/private/ipc"
 
 type IPCService struct {
-	orders ipc.OrdersService
+	orders ipc.IPCService
 }
 
-func NewIPCService(orders ipc.OrdersService) IPCService {
+func Wrap(orders ipc.IPCService) IPCService {
 	return IPCService{orders}
 }
 

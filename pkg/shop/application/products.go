@@ -16,7 +16,7 @@ type ProductsService struct {
 	readModel productReadModel
 }
 
-func NewProductsService(repo products.Repository, readModel productReadModel) ProductsService {
+func NewService(repo products.Repository, readModel productReadModel) ProductsService {
 	return ProductsService{repo, readModel}
 }
 

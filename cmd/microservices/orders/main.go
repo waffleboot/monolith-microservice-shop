@@ -12,19 +12,18 @@ func main() {
 
 	log.Println("Starting orders microservice")
 
-	ctx := cmd.Context()
+	router := cmd.CreateRouter()
 
-	r, cancel := createService()
-	defer cancel()
+	defer createService(router)
 
-	server := &http.Server{Addr: os.Getenv("SHOP_ORDERS_SERVICE_BIND_ADDR"), Handler: r}
+	server := &http.Server{Addr: os.Getenv("SHOP_ORDERS_SERVICE_BIND_ADDR"), Handler: router}
 	go func() {
 		if err := server.ListenAndServe(); err != http.ErrServerClosed {
 			panic(err)
 		}
 	}()
 
-	<-ctx.Done()
+	<-cmd.Context().Done()
 
 	log.Println("Closing orders microservice")
 

@@ -4,36 +4,30 @@ import (
 	"log"
 	"sync"
 
-	"monolith-microservice-shop/pkg/common/price"
 	"monolith-microservice-shop/pkg/payments/application"
 )
 
-type OrderToProcess struct {
-	ID    string
-	Price price.Price
-}
-
-type Payments struct {
-	orders  <-chan OrderToProcess
+type Runner struct {
+	ch      <-chan OrderToProcess
 	service application.PaymentsService
 	wg      *sync.WaitGroup
 	done    chan struct{}
 }
 
-func NewPayments(orders <-chan OrderToProcess, service application.PaymentsService) Payments {
-	return Payments{
-		orders,
+func NewRunner(ch <-chan OrderToProcess, service application.PaymentsService) Runner {
+	return Runner{
+		ch,
 		service,
 		&sync.WaitGroup{},
 		make(chan struct{}, 1),
 	}
 }
 
-func (o Payments) Run() {
+func (o Runner) Run() {
 	defer func() {
 		o.done <- struct{}{}
 	}()
-	for order := range o.orders {
+	for order := range o.ch {
 		o.wg.Add(1)
 		go func(orderToPay OrderToProcess) {
 			defer o.wg.Done()
@@ -45,7 +39,7 @@ func (o Payments) Run() {
 	}
 }
 
-func (o Payments) Close() {
+func (o Runner) Stop() {
 	o.wg.Wait()
 	<-o.done
 }

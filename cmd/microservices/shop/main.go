@@ -7,7 +7,7 @@ import (
 
 	"monolith-microservice-shop/pkg/common/cmd"
 	"monolith-microservice-shop/pkg/shop"
-	"monolith-microservice-shop/pkg/shop/application"
+	shop_app "monolith-microservice-shop/pkg/shop/application"
 	shop_repo "monolith-microservice-shop/pkg/shop/infrastructure/repo"
 	shop_private_http "monolith-microservice-shop/pkg/shop/interfaces/private/http"
 	shop_public_http "monolith-microservice-shop/pkg/shop/interfaces/public/http"
@@ -18,17 +18,16 @@ import (
 func main() {
 	log.Println("Starting shop microservice")
 
-	ctx := cmd.Context()
-
-	r := createService()
-	server := &http.Server{Addr: os.Getenv("SHOP_SHOP_SERVICE_BIND_ADDR"), Handler: r}
+	router := cmd.CreateRouter()
+	createService(router)
+	server := &http.Server{Addr: os.Getenv("SHOP_SHOP_SERVICE_BIND_ADDR"), Handler: router}
 	go func() {
 		if err := server.ListenAndServe(); err != http.ErrServerClosed {
 			panic(err)
 		}
 	}()
 
-	<-ctx.Done()
+	<-cmd.Context().Done()
 	log.Println("Closing shop microservice")
 
 	if err := server.Close(); err != nil {
@@ -36,18 +35,12 @@ func main() {
 	}
 }
 
-func createService() *chi.Mux {
+func createService(router *chi.Mux) {
 	repo := shop_repo.NewMemoryRepository()
-	service := application.NewProductsService(repo, repo)
-
+	service := shop_app.NewService(repo, repo)
 	if err := shop.LoadShopFixtures(service); err != nil {
 		panic(err)
 	}
-
-	r := cmd.CreateRouter()
-
-	shop_public_http.AddRoutes(r, repo)
-	shop_private_http.AddRoutes(r, repo)
-
-	return r
+	shop_public_http.AddRoutes(router, repo)
+	shop_private_http.AddRoutes(router, repo)
 }

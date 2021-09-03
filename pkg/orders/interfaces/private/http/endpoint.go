@@ -17,7 +17,7 @@ type ordersEndpoint struct {
 
 func (o ordersEndpoint) paid(w http.ResponseWriter, r *http.Request) {
 	cmd := application.MarkOrderAsPaidCommand{
-		OrderID: orders.ID(chi.URLParam(r, "id")),
+		OrderID: orders.OrderID(chi.URLParam(r, "id")),
 	}
 	if err := o.service.MarkOrderAsPaid(cmd); err != nil {
 		_ = render.Render(w, r, httputils.ErrInternal(err))

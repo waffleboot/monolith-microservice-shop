@@ -16,11 +16,9 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func createService() (router *chi.Mux, done func()) {
+func createService(router *chi.Mux) (done func()) {
 
 	cmd.WaitForService(os.Getenv("SHOP_RABBITMQ_ADDR"))
-
-	shop := shop.NewHTTPClient(os.Getenv("SHOP_SHOP_SERVICE_ADDR"))
 
 	payments, err := payments.NewAMQPService(
 		fmt.Sprintf("amqp://%s/", os.Getenv("SHOP_RABBITMQ_ADDR")),
@@ -33,17 +31,15 @@ func createService() (router *chi.Mux, done func()) {
 	repo := orders_repo.NewMemoryRepository()
 
 	service := application.NewOrdersService(
-		shop,
+		shop.NewHTTPClient(os.Getenv("SHOP_SHOP_SERVICE_ADDR")),
 		payments,
 		repo,
 	)
 
-	r := cmd.CreateRouter()
+	public_http.AddRoutes(router, service, repo)
+	private_http.AddRoutes(router, service)
 
-	public_http.AddRoutes(r, service, repo)
-	private_http.AddRoutes(r, service)
-
-	return r, func() {
+	return func() {
 		if err := payments.Close(); err != nil {
 			log.Printf("cannot close orders queue: %s", err)
 		}

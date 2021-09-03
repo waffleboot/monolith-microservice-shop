@@ -6,38 +6,34 @@ import (
 	"os"
 
 	"monolith-microservice-shop/pkg/common/cmd"
-	"monolith-microservice-shop/pkg/payments/application"
-	payments_infra_orders "monolith-microservice-shop/pkg/payments/infrastructure/orders"
+	payments_app "monolith-microservice-shop/pkg/payments/application"
+	payments_orders "monolith-microservice-shop/pkg/payments/infrastructure/orders"
 	"monolith-microservice-shop/pkg/payments/interfaces/amqp"
 )
 
 func main() {
 	log.Println("Starting payments microservice")
 	defer log.Println("Closing payments microservice")
-
-	ctx := cmd.Context()
-
-	paymentsInterface := createService()
-	if err := paymentsInterface.Run(ctx); err != nil {
+	if err := createService().Run(cmd.Context()); err != nil {
 		panic(err)
 	}
 }
 
-func createService() amqp.PaymentsAMQP {
+func createService() amqp.Runner {
 	cmd.WaitForService(os.Getenv("SHOP_RABBITMQ_ADDR"))
 
-	paymentsService := application.NewPaymentsService(
-		payments_infra_orders.NewHTTPClient(os.Getenv("SHOP_ORDERS_SERVICE_ADDR")),
+	service := payments_app.NewService(
+		payments_orders.NewHTTPClient(os.Getenv("SHOP_ORDERS_SERVICE_ADDR")),
 	)
 
-	paymentsInterface, err := amqp.NewPaymentsAMQP(
+	runner, err := amqp.NewRunner(
 		fmt.Sprintf("amqp://%s/", os.Getenv("SHOP_RABBITMQ_ADDR")),
 		os.Getenv("SHOP_RABBITMQ_ORDERS_TO_PAY_QUEUE"),
-		paymentsService,
+		service,
 	)
 	if err != nil {
 		panic(err)
 	}
 
-	return paymentsInterface
+	return runner
 }

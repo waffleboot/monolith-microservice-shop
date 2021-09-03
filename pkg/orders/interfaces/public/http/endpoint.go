@@ -24,7 +24,7 @@ func (o ordersEndpoint) orders(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cmd := application.PlaceOrderCommand{
-		OrderID:   orders.ID(uuid.NewV1().String()),
+		OrderID:   orders.OrderID(uuid.NewV1().String()),
 		ProductID: req.ProductID,
 		Address:   application.PlaceOrderCommandAddress(req.Address),
 	}
@@ -39,7 +39,7 @@ func (o ordersEndpoint) orders(w http.ResponseWriter, r *http.Request) {
 }
 
 func (o ordersEndpoint) paid(w http.ResponseWriter, r *http.Request) {
-	order, err := o.repository.ByID(orders.ID(chi.URLParam(r, "id")))
+	order, err := o.repository.ByID(orders.OrderID(chi.URLParam(r, "id")))
 	if err != nil {
 		_ = render.Render(w, r, httputils.ErrBadRequest(err))
 		return

@@ -15,7 +15,7 @@ type PaymentsService struct {
 	orders ordersService
 }
 
-func NewPaymentsService(orders ordersService) PaymentsService {
+func NewService(orders ordersService) PaymentsService {
 	return PaymentsService{orders}
 }
 

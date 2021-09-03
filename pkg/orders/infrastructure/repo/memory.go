@@ -1,18 +1,16 @@
 package repo
 
-import "monolith-microservice-shop/pkg/orders/domain/orders"
-
-var _ orders.Repository = (*MemoryRepository)(nil)
+import domain "monolith-microservice-shop/pkg/orders/domain/orders"
 
 type MemoryRepository struct {
-	orders []orders.Order
+	orders []domain.Order
 }
 
 func NewMemoryRepository() *MemoryRepository {
-	return &MemoryRepository{[]orders.Order{}}
+	return &MemoryRepository{[]domain.Order{}}
 }
 
-func (m *MemoryRepository) Save(order *orders.Order) error {
+func (m *MemoryRepository) Save(order *domain.Order) error {
 	for i, p := range m.orders {
 		if p.ID() == order.ID() {
 			m.orders[i] = *order
@@ -23,11 +21,11 @@ func (m *MemoryRepository) Save(order *orders.Order) error {
 	return nil
 }
 
-func (m MemoryRepository) ByID(id orders.ID) (*orders.Order, error) {
+func (m MemoryRepository) ByID(id domain.OrderID) (*domain.Order, error) {
 	for _, p := range m.orders {
 		if p.ID() == id {
 			return &p, nil
 		}
 	}
-	return nil, orders.ErrNotFound
+	return nil, domain.ErrNotFound
 }

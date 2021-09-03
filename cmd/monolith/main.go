@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"monolith-microservice-shop/pkg/common/cmd"
-	payments_ipc "monolith-microservice-shop/pkg/payments/interfaces/ipc"
+	payments "monolith-microservice-shop/pkg/payments/interfaces/ipc"
 )
 
 func main() {
@@ -16,11 +16,13 @@ func main() {
 
 	ctx := cmd.Context()
 
-	ch := make(chan payments_ipc.OrderToProcess)
+	router := cmd.CreateRouter()
 
-	router, payments := createService(ch)
+	ch := make(chan payments.OrderToProcess)
 
-	go payments.Run()
+	runner := build(router, ch)
+
+	go runner.Run()
 
 	addr := os.Getenv("SHOP_MONOLITH_BIND_ADDR")
 	if addr == "" {
@@ -45,6 +47,6 @@ func main() {
 
 	close(ch)
 
-	payments.Close()
+	runner.Stop()
 
 }

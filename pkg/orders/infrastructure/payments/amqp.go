@@ -5,8 +5,8 @@ import (
 	"log"
 
 	"monolith-microservice-shop/pkg/common/price"
-	"monolith-microservice-shop/pkg/orders/domain/orders"
-	payments_amqp "monolith-microservice-shop/pkg/payments/interfaces/amqp"
+	domain "monolith-microservice-shop/pkg/orders/domain/orders"
+	payments "monolith-microservice-shop/pkg/payments/interfaces/amqp"
 
 	"github.com/pkg/errors"
 	"github.com/streadway/amqp"
@@ -40,10 +40,10 @@ func NewAMQPService(url, queueName string) (AMQPService, error) {
 	return AMQPService{q, ch}, nil
 }
 
-func (s AMQPService) InitializeOrderPayment(id orders.ID, price price.Price) error {
-	order := payments_amqp.OrderToProcessView{
+func (s AMQPService) InitializeOrderPayment(id domain.OrderID, price price.Price) error {
+	order := payments.OrderToProcessView{
 		ID: string(id),
-		Price: payments_amqp.PriceView{
+		Price: payments.PriceView{
 			Cents:    price.Cents(),
 			Currency: price.Currency(),
 		},

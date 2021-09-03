@@ -2,19 +2,19 @@ package payments
 
 import (
 	"monolith-microservice-shop/pkg/common/price"
-	"monolith-microservice-shop/pkg/orders/domain/orders"
-	payments_ipc "monolith-microservice-shop/pkg/payments/interfaces/ipc"
+	domain "monolith-microservice-shop/pkg/orders/domain/orders"
+	payments "monolith-microservice-shop/pkg/payments/interfaces/ipc"
 )
 
 type IPCService struct {
-	orders chan<- payments_ipc.OrderToProcess
+	orders chan<- payments.OrderToProcess
 }
 
-func NewIPCService(ch chan<- payments_ipc.OrderToProcess) IPCService {
+func NewIPCService(ch chan<- payments.OrderToProcess) IPCService {
 	return IPCService{ch}
 }
 
-func (s IPCService) InitializeOrderPayment(id orders.ID, price price.Price) error {
-	s.orders <- payments_ipc.OrderToProcess{ID: string(id), Price: price}
+func (s IPCService) InitializeOrderPayment(id domain.OrderID, price price.Price) error {
+	s.orders <- payments.OrderToProcess{ID: string(id), Price: price}
 	return nil
 }

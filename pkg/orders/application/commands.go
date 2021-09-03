@@ -1,12 +1,11 @@
 package application
 
-import "monolith-microservice-shop/pkg/orders/domain/orders"
+import domain "monolith-microservice-shop/pkg/orders/domain/orders"
 
 type PlaceOrderCommand struct {
-	OrderID   orders.ID
-	ProductID orders.ProductID
-
-	Address PlaceOrderCommandAddress
+	OrderID   domain.OrderID
+	ProductID domain.ProductID
+	Address   PlaceOrderCommandAddress
 }
 
 type PlaceOrderCommandAddress struct {
@@ -18,5 +17,5 @@ type PlaceOrderCommandAddress struct {
 }
 
 type MarkOrderAsPaidCommand struct {
-	OrderID orders.ID
+	OrderID domain.OrderID
 }

@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"monolith-microservice-shop/pkg/common/price"
-	order_domain "monolith-microservice-shop/pkg/orders/domain/orders"
+	domain "monolith-microservice-shop/pkg/orders/domain/orders"
 	"monolith-microservice-shop/pkg/orders/infrastructure/repo"
 
 	"github.com/stretchr/testify/assert"
@@ -28,17 +28,17 @@ func TestMemoryRepository(t *testing.T) {
 	assert.EqualValues(t, *order2, *repoOrder2)
 }
 
-func addOrder(t *testing.T, repo *repo.MemoryRepository, id string) *order_domain.Order {
+func addOrder(t *testing.T, repo *repo.MemoryRepository, id string) *domain.Order {
 	productPrice, err := price.NewPrice(10, "USD")
 	assert.NoError(t, err)
 
-	orderProduct, err := order_domain.NewProduct("1", "foo", productPrice)
+	orderProduct, err := domain.NewProduct("1", "foo", productPrice)
 	assert.NoError(t, err)
 
-	orderAddress, err := order_domain.NewAddress("test", "test", "test", "test", "test")
+	orderAddress, err := domain.NewAddress("test", "test", "test", "test", "test")
 	assert.NoError(t, err)
 
-	p, err := order_domain.NewOrder(order_domain.ID(id), orderProduct, orderAddress)
+	p, err := domain.NewOrder(domain.OrderID(id), orderProduct, orderAddress)
 	assert.NoError(t, err)
 
 	err = repo.Save(p)
