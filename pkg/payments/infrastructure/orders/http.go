@@ -11,7 +11,7 @@ type HTTPClient struct {
 	address string
 }
 
-func NewHTTPClient(address string) HTTPClient {
+func WithHttp(address string) HTTPClient {
 	return HTTPClient{address}
 }
 

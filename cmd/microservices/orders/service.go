@@ -31,7 +31,7 @@ func createService(router *chi.Mux) (done func()) {
 	repo := orders_repo.NewMemoryRepository()
 
 	service := application.NewOrdersService(
-		shop.NewHTTPClient(os.Getenv("SHOP_SHOP_SERVICE_ADDR")),
+		shop.WithHttp(os.Getenv("SHOP_SHOP_SERVICE_ADDR")),
 		payments,
 		repo,
 	)

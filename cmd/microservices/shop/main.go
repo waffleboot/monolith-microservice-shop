@@ -6,11 +6,11 @@ import (
 	"os"
 
 	"monolith-microservice-shop/pkg/common/cmd"
-	"monolith-microservice-shop/pkg/shop"
-	shop_app "monolith-microservice-shop/pkg/shop/application"
-	shop_repo "monolith-microservice-shop/pkg/shop/infrastructure/repo"
-	shop_private_http "monolith-microservice-shop/pkg/shop/interfaces/private/http"
-	shop_public_http "monolith-microservice-shop/pkg/shop/interfaces/public/http"
+	. "monolith-microservice-shop/pkg/shop"
+	. "monolith-microservice-shop/pkg/shop/application"
+	. "monolith-microservice-shop/pkg/shop/infrastructure/repo"
+	private_http "monolith-microservice-shop/pkg/shop/interfaces/private/http"
+	public_http "monolith-microservice-shop/pkg/shop/interfaces/public/http"
 
 	"github.com/go-chi/chi"
 )
@@ -36,11 +36,11 @@ func main() {
 }
 
 func createService(router *chi.Mux) {
-	repo := shop_repo.NewMemoryRepository()
-	service := shop_app.NewService(repo, repo)
-	if err := shop.LoadShopFixtures(service); err != nil {
+	repo := NewMemoryRepository()
+	service := NewService(repo, repo)
+	if err := LoadShopFixtures(service); err != nil {
 		panic(err)
 	}
-	shop_public_http.AddRoutes(router, repo)
-	shop_private_http.AddRoutes(router, repo)
+	public_http.AddRoutes(router, repo)
+	private_http.AddRoutes(router, repo)
 }

@@ -5,15 +5,15 @@ import (
 	"monolith-microservice-shop/pkg/orders/domain/orders"
 )
 
-type IPCService struct {
+type Wrapper struct {
 	service application.OrdersService
 }
 
-func Endpoint(service application.OrdersService) IPCService {
-	return IPCService{service}
+func WithOrders(service application.OrdersService) Wrapper {
+	return Wrapper{service}
 }
 
-func (o IPCService) MarkOrderAsPaid(orderID string) error {
+func (o Wrapper) MarkOrderAsPaid(orderID string) error {
 	return o.service.MarkOrderAsPaid(
 		application.MarkOrderAsPaidCommand{OrderID: orders.OrderID(orderID)})
 }

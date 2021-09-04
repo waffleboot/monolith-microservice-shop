@@ -1,30 +1,30 @@
 package shop
 
 import (
-	"monolith-microservice-shop/pkg/orders/domain/orders"
-	"monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
+	domain "monolith-microservice-shop/pkg/orders/domain/orders"
+	shop_ipc "monolith-microservice-shop/pkg/shop/interfaces/private/ipc"
 )
 
-type IPCService struct {
-	shop ipc.ProductInterface
+type wrapper struct {
+	shop shop_ipc.ProductInterface
 }
 
-func NewIPCService(shop ipc.ProductInterface) IPCService {
-	return IPCService{shop}
+func WithShop(shop shop_ipc.ProductInterface) wrapper {
+	return wrapper{shop}
 }
 
-func (s IPCService) ProductByID(id orders.ProductID) (orders.Product, error) {
+func (s wrapper) ProductByID(id domain.ProductID) (domain.Product, error) {
 	product, err := s.shop.ProductByID(string(id))
 	if err != nil {
-		return orders.Product{}, err
+		return domain.Product{}, err
 	}
 
 	return convert(product)
 }
 
-func convert(p ipc.Product) (orders.Product, error) {
-	return orders.NewProduct(
-		orders.ProductID(p.ID),
+func convert(p shop_ipc.Product) (domain.Product, error) {
+	return domain.NewProduct(
+		domain.ProductID(p.ID),
 		p.Name,
 		p.Price)
 }

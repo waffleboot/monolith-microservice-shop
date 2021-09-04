@@ -13,15 +13,15 @@ import (
 	"github.com/pkg/errors"
 )
 
-type HTTPClient struct {
+type httpClient struct {
 	address string
 }
 
-func NewHTTPClient(address string) HTTPClient {
-	return HTTPClient{address}
+func WithHttp(address string) httpClient {
+	return httpClient{address}
 }
 
-func (h HTTPClient) ProductByID(id orders.ProductID) (orders.Product, error) {
+func (h httpClient) ProductByID(id orders.ProductID) (orders.Product, error) {
 	resp, err := http.Get(fmt.Sprintf("%s/products/%s", h.address, id))
 	if err != nil {
 		return orders.Product{}, errors.Wrap(err, "request to shop failed")
