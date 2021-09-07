@@ -11,15 +11,6 @@ import (
 	"github.com/go-chi/render"
 )
 
-func AddRoutes(router *chi.Mux, repo shop.Repository) {
-	resource := productsResource{repo}
-	router.Get("/products/{id}", resource.Get)
-}
-
-type productsResource struct {
-	repo shop.Repository
-}
-
 type ProductView struct {
 	ID string `json:"id"`
 
@@ -38,18 +29,20 @@ func priceViewFromPrice(p price.Price) PriceView {
 	return PriceView{p.Cents(), p.Currency()}
 }
 
-func (p productsResource) Get(w http.ResponseWriter, r *http.Request) {
-	product, err := p.repo.ByID(shop.ID(chi.URLParam(r, "id")))
+func products(repo shop.Repository) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		product, err := repo.ByID(shop.ID(chi.URLParam(r, "id")))
 
-	if err != nil {
-		_ = render.Render(w, r, httputils.ErrInternal(err))
-		return
+		if err != nil {
+			_ = render.Render(w, r, httputils.ErrInternal(err))
+			return
+		}
+
+		render.Respond(w, r, ProductView{
+			string(product.ID()),
+			product.Name(),
+			product.Description(),
+			priceViewFromPrice(product.Price()),
+		})
 	}
-
-	render.Respond(w, r, ProductView{
-		string(product.ID()),
-		product.Name(),
-		product.Description(),
-		priceViewFromPrice(product.Price()),
-	})
 }
