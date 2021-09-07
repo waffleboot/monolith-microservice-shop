@@ -7,5 +7,5 @@ import (
 )
 
 func AddRoutes(router *chi.Mux, service application.OrdersService) {
-	router.Post("/orders/{id}/paid", ordersEndpoint{service}.paid)
+	router.Post("/orders/{id}/paid", paid(service))
 }

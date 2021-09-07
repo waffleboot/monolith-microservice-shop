@@ -1,10 +1,11 @@
 package http
 
 import (
+	"net/http"
+
 	httputils "monolith-microservice-shop/pkg/common/http"
 	"monolith-microservice-shop/pkg/orders/application"
 	domain "monolith-microservice-shop/pkg/orders/domain/orders"
-	"net/http"
 
 	"github.com/go-chi/render"
 	uuid "github.com/satori/go.uuid"
