@@ -21,7 +21,7 @@ type PlaceOrderCommandAddress struct {
 	Country  string
 }
 
-func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
+func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand, repo domain.Repository) error {
 	address, err := domain.NewAddress(
 		cmd.Address.Name,
 		cmd.Address.Street,
@@ -43,7 +43,7 @@ func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
 		return errors.Wrap(err, "cannot create order")
 	}
 
-	if err := s.repo.Save(newOrder); err != nil {
+	if err := repo.Save(newOrder); err != nil {
 		return errors.Wrap(err, "cannot save order")
 	}
 
