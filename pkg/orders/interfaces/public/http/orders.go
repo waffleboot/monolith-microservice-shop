@@ -12,7 +12,7 @@ import (
 )
 
 type PostOrderRequest struct {
-	ProductID domain.ProductID `json:"product_id"`
+	ProductID string           `json:"product_id"`
 	Address   PostOrderAddress `json:"address"`
 }
 
@@ -37,7 +37,7 @@ func orders(service application.OrdersService, repo domain.Repository) http.Hand
 		}
 		cmd := application.PlaceOrderCommand{
 			OrderID:   domain.OrderID(uuid.NewV1().String()),
-			ProductID: req.ProductID,
+			ProductID: domain.ProductID(req.ProductID),
 			Address:   application.PlaceOrderCommandAddress(req.Address),
 		}
 		if err := service.PlaceOrder(cmd, repo); err != nil {
