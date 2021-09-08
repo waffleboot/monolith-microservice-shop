@@ -1,5 +1,6 @@
 
 all:
+	go build -o client ./cmd/client
 	go build -o monolith ./cmd/monolith
 	go build -o shop ./cmd/microservices/shop
 	go build -o orders ./cmd/microservices/orders
