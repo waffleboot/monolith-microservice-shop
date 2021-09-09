@@ -25,7 +25,7 @@ type PostOrderAddress struct {
 }
 
 type PostOrdersResponse struct {
-	OrderID string
+	OrderID string `json:"order_id"`
 }
 
 func orders(service application.OrdersService, repo domain.Repository) http.HandlerFunc {
