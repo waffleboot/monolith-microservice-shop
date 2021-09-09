@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: monolith-microservice-shop
+  version: 1.0.0
+paths:
+  /orders:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - product_id
+                - address
+              properties:
+                product_id:
+                  type: integer
+                  format: int64
+                address:
+                  type: object
+                  required:
+                    - name
+                    - street
+                    - city
+                    - post_code
+                    - country
+                  properties:
+                    name:
+                      type: string
+                    street:
+                      type: string
+                    city:
+                      type: string
+                    post_code:
+                      type: string
+                    country:
+                      type: string
+      responses:
+        '200':
+          description: order has been created
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - order_id
+                properties:
+                  order_id:
+                    type: integer
+                    format: int64
+  /orders/{id}/paid:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                  is_paid:
+                    type: boolean
